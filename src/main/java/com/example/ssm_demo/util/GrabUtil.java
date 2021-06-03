@@ -21,7 +21,7 @@ public class GrabUtil {
     static int sid =1;
 
     public static Set<Org> parseOrg() throws Exception{
-        Document document= Jsoup.parse(new URL(URL+"index.html"),10000);
+        Document document= Jsoup.parse(new URL(URL+"index.html").openStream(),"GBK",(URL+"index.html"));
         Elements elements1=document.getElementsByClass("provincetable");
         Element element=elements1.get(0);
         Elements elements=element.getElementsByTag("a");
@@ -61,7 +61,7 @@ public class GrabUtil {
         String areaCode="";
         String name="";
         pid=id;
-        Document document=Jsoup.parse(new URL(url),10000);
+        Document document=Jsoup.parse(new URL(url).openStream(),"GBK",url);
         //  市/州 模板
         Elements elements_city=document.getElementsByClass("citytable");
         //  县/区 模板
