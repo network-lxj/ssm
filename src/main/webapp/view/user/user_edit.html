@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户编辑</title>
+    <script src="/jsencrypt-2.1.0/bin/jsencrypt.min.js"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+  用户名：<input type="text" class="username" id="username"><br/>
+  密码：<input type="password" class="password" id="password"><br/>
+    <input type="button" id="submit" value="提交">
+</body>
+<script type="text/javascript">
+    let publicKey="";
+    $(function(){
+      $.get("/user/getPublickey",function (data) {
+          publicKey=data;
+      });
+    });
+    $("#submit").click(function () {
+        let encrypt = new JSEncrypt();
+        encrypt.setPublicKey(publicKey);
+        let username=encrypt.encrypt($.trim($("#username").val()));
+        let password=encrypt.encrypt($.trim($("#password").val()));
+        let params={username:username,password:password};
+        $.post("/user/add",params,function (data) {
+            console.log(data);
+        });
+    });
+</script>
+</html>
