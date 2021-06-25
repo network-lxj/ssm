@@ -87,14 +87,14 @@ public class MD5Utils {
 
     public static void main(String args[]) {
 
-        String plaintext = "lxj#2021";
+        String plaintext = "lxsj#2021";
 
         System.out.println("明文：" + plaintext);
         System.out.println("普通MD5码：" + MD5(plaintext));
 
         // 获取加盐后的MD5值
         String ciphertext = generate(plaintext);
-        System.out.println("加盐后MD5码：" + ciphertext);
+        System.out.println("加盐后MD5码：" + ciphertext.length());
         System.out.println("是否是同一字符串:" + verify(plaintext, ciphertext));
 
     }

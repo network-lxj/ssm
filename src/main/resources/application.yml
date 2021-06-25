@@ -16,8 +16,16 @@ spring:
     encoding: utf-8
   mvc:
     static-path-pattern: /**
+  freemarker:
+    suffix: .html
 
 mybatis-plus:
   type-aliases-package: com.example.ssm_demo.entity
   mapper-locations: classpath:/mapper/*Mapper.xml
 
+pagehelper:
+  helper-dialect: mysql
+  pageSizeZero: true
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true

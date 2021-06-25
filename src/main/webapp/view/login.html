@@ -2,29 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户编辑</title>
+    <title>登录</title>
     <script src="/jsencrypt-2.1.0/bin/jsencrypt.min.js"></script>
     <script src="/js/jquery-3.5.1.min.js"></script>
 </head>
 <body>
   用户名：<input type="text" class="username" id="username"><br/>
   密码：<input type="password" class="password" id="password"><br/>
+  <input type="text" placeholder="请输入验证码" id="code">
+  <img style="margin-right: 20px" width="100px" id="verify_code_img" height="32"
+       src="/ssm_demo/getImage" onclick="changeImg()"><br>
     <input type="button" id="submit" value="提交">
 </body>
 <script type="text/javascript">
     let publicKey="";
     $(function(){
-      $.get("/user/getPublickey",function (data) {
+      $.get("/ssm_demo/getPublickey",function (data) {
           publicKey=data;
       });
     });
+    /* 触发JS刷新  切换图片*/
+    function changeImg() {
+        var img = document.getElementById("verify_code_img");
+        img.src = "/ssm_demo/getImage?date=" + new Date();
+
+    }
     $("#submit").click(function () {
         let encrypt = new JSEncrypt();
         encrypt.setPublicKey(publicKey);
         let username=encrypt.encrypt($.trim($("#username").val()));
         let password=encrypt.encrypt($.trim($("#password").val()));
-        let params={username:username,password:password};
-        $.post("/user/add",params,function (data) {
+        let code=$('#code').val();
+        let params={"username":username,"password":password,"verifyCode":code};
+        $.post("/ssm_demo/login",params,function (data) {
             console.log(data);
         });
     });

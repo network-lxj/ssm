@@ -14,14 +14,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 中国统计用区划代码和城乡划分代码 爬虫工具类
+ */
 public class GrabUtil {
 
     private static final String URL="http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2020/";
     static Set<Integer> ids=new HashSet<>();
     static int sid =1;
 
+    /**
+     * 爬虫获取组织机构
+     * @return 组织机构
+     * @throws Exception
+     */
     public static Set<Org> parseOrg() throws Exception{
-        Document document= Jsoup.parse(new URL(URL+"index.html").openStream(),"GBK",(URL+"index.html"));
+        Document document= Jsoup.parse(new URL(URL+"index.html"),10000);
+//        String url=URL+"index.html";
+//        Document document= Jsoup.parse(new URL(url).openStream(),"GBK",url);
         Elements elements1=document.getElementsByClass("provincetable");
         Element element=elements1.get(0);
         Elements elements=element.getElementsByTag("a");
@@ -56,12 +66,13 @@ public class GrabUtil {
     }
 
     private static String resetOrg(String url,int rank,int id,int pid,Set<Org> list) throws Exception{
-        Thread.currentThread().sleep(3000);
+        Thread.currentThread().sleep(2000);
         String hrefUrl="";
         String areaCode="";
         String name="";
         pid=id;
-        Document document=Jsoup.parse(new URL(url).openStream(),"GBK",url);
+//        Document document=Jsoup.parse(new URL(url).openStream(),"GBK",url);
+        Document document=Jsoup.parse(new URL(url),10000);
         //  市/州 模板
         Elements elements_city=document.getElementsByClass("citytable");
         //  县/区 模板

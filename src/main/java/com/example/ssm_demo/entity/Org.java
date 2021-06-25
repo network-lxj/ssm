@@ -29,6 +29,10 @@ public class Org {
      * 区域编码
      */
     private String areaCode;
+    /**
+     * 全稱
+     */
+    private String fullName;
 
     public Org() {
     }
@@ -49,6 +53,7 @@ public class Org {
                 ", name='" + name + '\'' +
                 ", rank='" + rank + '\'' +
                 ", areaCode='" + areaCode + '\'' +
+                ", fullName='" + fullName + '\'' +
                 '}';
     }
 }

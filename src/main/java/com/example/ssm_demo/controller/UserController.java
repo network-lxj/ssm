@@ -1,22 +1,33 @@
 package com.example.ssm_demo.controller;
 
+import com.example.ssm_demo.service.UserService;
 import com.example.ssm_demo.util.MD5Utils;
 import com.example.ssm_demo.util.RSAUtils;
+import com.example.ssm_demo.util.VerifyCodeUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("user")
+import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
+@Controller
+@RequestMapping("ssm/user")
 public class UserController {
 
-    @RequestMapping("getPublickey")
-//    @ResponseBody
-    public String getUserTest(){
-        String key =RSAUtils.generateBase64PublicKey();
-        return key;
-    }
+
+
+    @Resource
+    UserService userService;
 
     @RequestMapping("add")
     public String userAdd(String username,String password){

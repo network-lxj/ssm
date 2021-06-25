@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/metroStyle/metroStyle.css"/>
+    <link rel="stylesheet" href="/css/layui/layui.css"  >
+
+    <script src="/js/layui/layui.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="/js/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/js/ztree/jquery.ztree.excheck.js"></script>
+</head>
+<body>
+    <div class="zTreeDemoBackground" >
+        <ul id="tree" class="ztree"></ul>
+    </div>
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $.fn.zTree.init($("#tree"), setting);
+        // let params={orgId:1,defaults:"defaults"};
+        // $.post("/org/getOrgs",params,function (resp) {
+        //     console.log(resp);
+        //     $.fn.zTree.init($("#tree"), setting, resp.data);
+        // });
+    })
+
+    var setting = {
+        async:{
+            enable : true,
+            type : "post",
+            url : '/ssm/org/getOrgs',
+            autoParam:["id"],
+            dataFilter: filter
+        },
+        view: {
+            selectedMulti: false,
+            dblClickExpand : false
+        },
+        callback : {
+            onClick : onClick
+        },
+        data: {
+            key:{
+                name:"name"
+            },
+            simpleData: {
+                enable: true,//是否采用简单数据模式
+                idKey: "id",//树节点ID名称
+                pIdKey: "pid"//父节点ID名称
+            }
+        }
+    };
+    // 数据处理回调函数
+    function filter(treeId, parentNode, childNodes) {
+        if (!childNodes) {
+            return null;
+        }
+        for (let i=0, l=childNodes.length; i<l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+        }
+        return childNodes;
+    }
+    function onClick(event, treeId, treeNode) {
+        console.log("treeId:"+treeNode.id+"     treeNode:"+treeNode.name);
+    }
+</script>
+</html>
